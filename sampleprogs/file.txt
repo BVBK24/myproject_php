@@ -1,0 +1,6 @@
+bk-bharath krishna
+ind-india
+this is example for file read
+readfile is an operation
+to read the file we have to use readfile operation
+thank you!!!

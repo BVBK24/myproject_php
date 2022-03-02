@@ -1,0 +1,117 @@
+<button type="button" class="btn btn-outline-primary">search</button>
+<input type="search" class="form-control rounded" id="live_search" placeholder="Search" aria-label="Search" aria-describedby="search-addon" />
+
+<script type="text/javascript">
+    $(document).ready(function(){
+        $("#live_search").keyup(function(){
+            var input=$(this).val();
+            //alert(input);
+            if(input!='')
+            {
+                $.ajax({
+                    url:"fetch.php",
+                    method:"POST",
+                    data:{input:input},
+                    success:function(data){
+                        $("#searchresult").html(data);
+                    }
+
+                });
+            }
+            else
+            {
+                $("#searchresult").css("display","view.php");
+            }
+        });
+    });
+
+</script>
+
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteCond %{REQUEST_FILENAME}\.php -f
+RewriteRule ^index/([0-9]+)/([0-9a-zA-Z_-]+) index.php [NC,L]
+
+
+<?php 
+require_once('./config/dbconfig.php');
+$db=new operations();
+$result=$db->sln();
+?>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="CSS/bootstrap.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"></script>
+    <title>Curd Operations</title>
+</head>
+<body class="bg-light">
+    <div class="mt-2">
+        <div class="mx-auto" style="width: 750px;">
+            <form method="post">
+            <button type="button" class="btn btn-primary" name="sid" onclick="location.href='view1';">Sort by ID</button>
+            <button type="button" class="btn btn-secondary" onclick="location.href='sft';">Sort by Firstname</button>
+            <button type="button" class="btn btn-success" onclick="location.href='sln';">Sort by Lastname</button>
+            <button type="button" class="btn btn-info" onclick="location.href='sem';">Sort by Email</button>
+            <button type="button" class="btn btn-dark" onclick="location.href='sph';">Sort by Phone</button>
+            <button type="button" class="btn btn-primary" onclick="location.href='vieworiginal';">View</button>
+            </form>
+        </div>
+    </div>
+    <div class="mt-4">
+        <div class="mx-auto" style="width: 750px;">
+            <div class="input-group">
+                <input type="text" class="form-control" id="live_search" autocomplete="off" placeholder="Search" onclick="location.href='fetch';"/>
+            </div>
+        </div>
+    </div>
+    <div id="searchresult"></div>
+    <div class="container">
+        <div class="row">
+            <div class="col">
+                <div class="card mt-5">
+                    <div class="card-header">
+                        <h2 class="text-center text-dark">Saved Records</h2>
+                    </div>
+                    <div class="card-body">
+                    <?php $db->d_msg();
+                          $db->d_msg();
+                     ?>
+                        <table class="table table-bordered">
+                            <tr>
+                                <td style="width: 10%">ID</td>
+                                <td style="width: 20%">Firstname</td>
+                                <td style="width: 20%">Lastname</td>
+                                <td style="width: 20%">MailId</td>
+                                <td style="width: 15%">Phone</td>
+                                <td style="width: 20%" colspan="2" class="text-center">Operations</td>
+                            </tr>
+                            <tr>
+                                <?php
+                                    while($data=mysqli_fetch_assoc($result))
+                                    {
+                                ?>
+                                    <td><?php echo $data['id']?></td>
+                                    <td><?php echo $data['firstname']?></td>
+                                    <td><?php echo $data['lastname']?></td>
+                                    <td><?php echo $data['email']?></td>
+                                    <td><?php echo $data['phone']?></td>
+                                    <td><a href='update.php?U_ID=<?php echo $data['id'] ?>' class="btn btn-success">Update</td>
+                                    <td><a href='delete.php?D_ID=<?php echo $data['id'] ?>' class="btn btn-danger" onClick='return confirm("Want to delete")'>Delete</td>
+                            </tr>
+                                <?php
+                                    }
+                                ?>
+                        </table>
+                    </div>
+                    <div class="card-footer">
+                        <button class="btn btn-success" onclick="location.href='index';">Create Record</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</body>
+</html>

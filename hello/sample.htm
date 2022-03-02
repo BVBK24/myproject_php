@@ -1,0 +1,49 @@
+<html>
+    <head>
+        <style>
+            .center
+            {
+                margin-left:auto;
+                margin-right:auto;
+                margin-top: 150;
+            }
+            table,tr,td{
+                border: 1px solid black;
+                border-collapse: collapse;
+            }
+            td{
+                background-color: red;
+            }
+        </style>
+        <script>
+            function al()
+            {
+                alert("hello");
+            }
+        </script>
+    </head>
+    <body>
+        <form method="post">
+            <table class="center" onClick="return al()">
+                <th><h2>Form using table</h2></th>
+                <tr>
+                    <td>Enter name:<input type="text"/></td>
+                </tr>
+                <tr>
+                    <td>Enter second name:<input type="text"/></td>
+                </tr>
+                    <td>Enter email:<input type="text"/></td>
+                </tr>
+                <tr>
+                    <td>Enter phone:<input type="text"/></td>
+                </tr>
+                <tr>
+                    <td>Enter comments:<input type="textarea" rows="4"/></td>
+                </tr>
+                <tr>
+                    <td><input type="submit"/></td>
+                </tr>
+            </table>
+        </form>
+    </body>
+</html>
